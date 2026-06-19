@@ -1,0 +1,70 @@
+# =============================================================================
+# opalyx.conf — sample Opalyx node configuration
+# =============================================================================
+# Place this file in your data directory:
+#   Linux:   ~/.opalyx/opalyx.conf
+#   (testnet uses the same file; the -testnet flag selects the testnet section
+#    and the testnet datadir ~/.opalyx/testnet1/)
+#
+# Lines starting with # are comments. Remove the leading # to enable a setting.
+# After editing, (re)start opalyxd. Verify with:
+#   opalyx-cli getblockchaininfo
+# =============================================================================
+
+# ---- RPC (local control) ----------------------------------------------------
+# opalyx-cli and miningcore talk to the node over RPC. Use a long random
+# password. Do NOT expose the RPC port to the public internet.
+server=1
+rpcuser=opalyxrpc
+rpcpassword=CHANGE_ME_TO_A_LONG_RANDOM_STRING
+rpcbind=127.0.0.1
+rpcallowip=127.0.0.1
+
+# Mainnet RPC port is 19776 (this is the default; shown for clarity).
+# rpcport=19776
+
+# ---- P2P networking ----------------------------------------------------------
+listen=1
+# Mainnet P2P port is 19777 (default).
+# port=19777
+
+# Add specific peers if DNS seeds are unavailable (replace with real nodes):
+# addnode=node1.opalyx.example.org
+# addnode=node2.opalyx.example.org
+
+# ---- Indexing ----------------------------------------------------------------
+# txindex=1 is required by miningcore and most block explorers. Changing it
+# later forces a reindex, so set it before first sync.
+txindex=1
+
+# ---- Mining (pools / solo) ---------------------------------------------------
+# KawPow is GPU-mined by an external miner via getblocktemplate (pools use
+# miningcore). The node itself does not GPU-mine. See MINING.md.
+
+# ---- Deep-reorg protection ---------------------------------------------------
+# Opalyx rejects reorganizations deeper than 720 blocks by default. Leave this
+# OFF on normal nodes. Only set it (and only temporarily) if you are recovering
+# a chain split and you understand the consequences. See SECURITY.md.
+# allowdeepreorg=1
+
+# ---- Signed checkpoints ------------------------------------------------------
+# If the Opalyx maintainers publish a signed checkpoint, pin it here. Format is
+# HEIGHT:BLOCKHASH:SIGHEX (produced by scripts/sign-checkpoint.py). The node
+# verifies the signature against the compiled-in master public key and then
+# rejects blocks that conflict at that height.
+# synccheckpoint=50000:0000....blockhash....:3045....derSignature....
+
+# ---- Testnet section ---------------------------------------------------------
+# Settings under [test] apply only when opalyxd is started with -testnet.
+# Testnet RPC = 29776, P2P = 29777.
+[test]
+# rpcport=29776
+# port=29777
+# rpcbind=127.0.0.1
+# rpcallowip=127.0.0.1
+
+# ---- Regtest section ---------------------------------------------------------
+# Settings under [regtest] apply only with -regtest. RPC = 39776, P2P = 39777.
+[regtest]
+# rpcport=39776
+# port=39777

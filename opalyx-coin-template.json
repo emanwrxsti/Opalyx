@@ -1,0 +1,26 @@
+{
+  "_comment": "Opalyx (OPX) coin definition for Miningcore. Place the contents of the 'opalyx' object into Miningcore's coins.json (the top-level object keyed by coin symbol). KawPow uses the ProgPoW/KawPow family; Miningcore talks to opalyxd over RPC and to miners over Stratum. See MINING.md and miningcore/opalyx-pool-template.json.",
+  "opalyx": {
+    "name": "Opalyx",
+    "symbol": "OPX",
+    "family": "kawpow",
+    "kawpow": {
+      "epochLength": 7500
+    },
+    "explorerBlockLinks": {
+      "block": "https://explorer.example.org/block/{0}"
+    },
+    "explorerTxLink": "https://explorer.example.org/tx/{0}",
+    "explorerAccountLink": "https://explorer.example.org/address/{0}",
+    "coinbaseHasher": "sha256d",
+    "headerHasher": "kawpow",
+    "blockHasher": "reverse_blake2b_256",
+    "_blockHasher_comment": "Opalyx inherits Ravencoin's KawPow block-id scheme. If your fork keeps Ravencoin's GetX16RHash for the on-disk block hash, use the same blockHasher value Miningcore ships for Ravencoin (ravencoin). Confirm against your daemon's getblock output before going live.",
+    "hasMasterNodes": false,
+    "hasPayee": false,
+    "txfee": 0.0001,
+    "minConfirmations": 120,
+    "_minConfirmations_comment": "120 blocks = coinbase maturity (60) plus headroom. Exchanges should use far more (120-360) before crediting deposits; pools only need maturity before paying out mined coinbases.",
+    "coinbaseMaturity": 60
+  }
+}

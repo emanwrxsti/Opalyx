@@ -1,0 +1,101 @@
+{
+  "_comment": "Opalyx (OPX) Miningcore pool configuration TEMPLATE. This is a minimal single-pool config wired for the OPALYX TESTNET (daemon RPC 29776). Replace credentials, addresses, and the persistence/postgres block, then flip the daemon port to 19776 for mainnet. Requires the 'opalyx' coin definition from opalyx-coin-template.json to be present in Miningcore's coins.json. KawPow mining is GPU-only; miners connect over Stratum to the ports under 'ports' below.",
+
+  "logging": {
+    "level": "info",
+    "enableConsoleLog": true,
+    "enableConsoleColors": true,
+    "logFile": "",
+    "logBaseDirectory": "",
+    "perPoolLogFile": false
+  },
+
+  "banning": {
+    "manager": "Integrated",
+    "banOnJunkReceive": true,
+    "banOnInvalidShares": false
+  },
+
+  "notifications": {
+    "enabled": false,
+    "email": {},
+    "admin": {}
+  },
+
+  "persistence": {
+    "postgres": {
+      "host": "127.0.0.1",
+      "port": 5432,
+      "user": "miningcore",
+      "password": "CHANGE_ME",
+      "database": "miningcore"
+    }
+  },
+
+  "paymentProcessing": {
+    "enabled": true,
+    "interval": 600,
+    "shareRecoveryFile": "recovered-shares.txt"
+  },
+
+  "api": {
+    "enabled": true,
+    "listenAddress": "127.0.0.1",
+    "port": 4000
+  },
+
+  "pools": [
+    {
+      "id": "opalyx-testnet",
+      "enabled": true,
+      "coin": "opalyx",
+      "address": "REPLACE_WITH_POOL_WALLET_ADDRESS",
+      "_address_comment": "A pool-controlled Opalyx address that receives block rewards. On testnet generate one with: opalyx-cli -testnet getnewaddress. Mainnet addresses start with 'o'.",
+      "rewardRecipients": [
+        {
+          "address": "REPLACE_WITH_FEE_ADDRESS",
+          "percentage": 1.0
+        }
+      ],
+      "blockRefreshInterval": 500,
+      "jobRebroadcastTimeout": 10,
+      "clientConnectionTimeout": 600,
+      "banning": {
+        "enabled": true,
+        "time": 600,
+        "invalidPercent": 50,
+        "checkThreshold": 50
+      },
+      "ports": {
+        "3333": {
+          "listenAddress": "0.0.0.0",
+          "difficulty": 0.1,
+          "varDiff": {
+            "minDiff": 0.05,
+            "maxDiff": null,
+            "targetTime": 15,
+            "retargetTime": 90,
+            "variancePercent": 30
+          }
+        }
+      },
+      "daemons": [
+        {
+          "host": "127.0.0.1",
+          "port": 29776,
+          "_port_comment": "29776 = Opalyx TESTNET RPC. Use 19776 for mainnet, 39776 for regtest.",
+          "user": "opalyxrpc",
+          "password": "CHANGE_ME_TO_MATCH_opalyx.conf"
+        }
+      ],
+      "paymentProcessing": {
+        "enabled": true,
+        "minimumPayment": 1.0,
+        "payoutScheme": "PPLNS",
+        "payoutSchemeConfig": {
+          "factor": 2.0
+        }
+      }
+    }
+  ]
+}
